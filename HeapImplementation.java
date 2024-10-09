@@ -17,12 +17,17 @@ public class HeapImplementation {
 		 int LCH= current*2;
 		 int RCH = current*2+1;
 		 int index = current;
-		 int length = array.length-1;
+		 int length = array[0];
 		 if(LCH<=length && RCH<=length) {
-			 if(array[LCH]>array[RCH]) {index = LCH;}
+			 if(array[LCH]<array[RCH]) 
+			 {index = LCH;}
 			 else {index =RCH;}
 		 }
-		 if(array[index]>array[current]) {
+		 //for last sorting (Comparing array[1] with array[2])
+		 else if(LCH<=length) {
+			 index = LCH;
+		 }
+		 if(array[index]<array[current]) {
 			 array = swap(array,index,current);
 			 array = percolateDown(array, index);
 		 }
@@ -30,13 +35,23 @@ public class HeapImplementation {
 	 }
 	
 	
-	 public static int[] buildMaxHeap(int array[]) {
-	int lastParent = (array.length-1)/2;
+	 public static int[] buildMinHeap(int array[]) {
+	int lastParent = (int) Math.ceil((array.length-1)/2);
 		for(int i=lastParent;i>=1;i--) {
 			array = percolateDown(array, i);
 		}
 		return array;
 		
+	}
+	 
+	public static int[] sortHeap(int array[]) {
+		while(array[0]!=0) {
+			array = swap(array,1,array[0]);
+			array[0]= array[0]-1;
+			array = percolateDown(array, 1);
+		}
+		
+		return array;
 	}
 	
 	public static void main(String args[]) {
@@ -51,10 +66,16 @@ public class HeapImplementation {
 		System.out.println("Array Before heap");
 		printElements(arrayBeforeHeap);
 		
-		int[] arrayHeap = buildMaxHeap(arrayBeforeHeap);
-		arrayHeap[0] = arrayHeap.length-1;
-		System.out.println("\nArray After heap");
+		arrayBeforeHeap[0] = arrayBeforeHeap.length-1;
+		int[] arrayHeap = buildMinHeap(arrayBeforeHeap);
+		
+		System.out.println("\nArray After converting to Minheap");
 		printElements(arrayHeap);
-			
+		
+		System.out.println("\nSorted heap in descending order");
+		sortHeap(arrayHeap);
+		printElements(arrayHeap);	
+		
+		
 	}
 }
