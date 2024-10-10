@@ -1,0 +1,77 @@
+//RIGHT STRAIGHT LINE
+Function rightStraightLineRotation(n1, n2, n3)
+	temp =: n1.root  //store n1's parent with temp
+	IF n1.root!= NULL then
+		IF n1.root.RCH == n1 then n1.root.RCH = n2
+		ELSE 
+			n1.root.LCH = n2
+		END IF
+	END IF
+	IF n2.LCH != NULL then 
+		n1.RCH = n2.LCH
+		n2.LCH.root  = n1
+	ELSE
+		n1.RCH = NULL
+	END IF
+	n1.root = n2
+	n2.LCH = n1
+	n2.root = temp
+END function
+********************************************************************************
+//RIGHT ZIG ZAG ROTATION
+Function RightZigZagRotation(n1, n2, n3)
+	temp =: n3.RCH
+	temp2 = n1.RCH
+	n1.RCH := n3
+	n3.RCH := n2
+	IF temp != NULL then n2.LCH := temp
+	ELSE 
+		n2.LCH := NULL
+	END IF
+	n3.root := temp2
+	END IF
+
+	CALL rightStraightLineRotation(n1, n3, n2)	
+	
+END function
+********************************************************************************
+// LEFT STRAIGHT LINE ROTATION (needed for left zig zag rotation)
+Function leftStrightLineRotation(n1, n2, n3):
+	temp:= n1.root	
+	IF n1.root!= NULL then
+		IF n1.root.LCH == n1 then n1.root.LCH := n2
+		ELSE 
+			n1.root.RCH := n2
+		END IF
+	END IF
+	IF n2.RCH != NULL then 
+		n2.RCH.root := n1
+		n1.LCH := n2.RCH
+	ELSE
+		n1.LCH := NULL
+	END IF
+	n2.RCH := n1
+	n1.root := n2
+	IF temp != NULL then n2.root := temp
+END Function 
+
+
+********************************************************************************	
+// LEFT ZIGZAG ROTATION
+Function LeftZigZagRotation(n1, n2, n3)
+	temp := n3.LCH
+	n1.LCH :=  n3
+	n3.LCH := n2
+	IF temp != NULL then n2.RCH := temp
+	ELSE 
+		n2.RCH := NULL
+	END IF
+	n3.root := n1
+	n2.root := n3
+
+	CALL leftstraightLineRotation(n1, n3, n2)
+END function
+
+********************************************************************************
+
+
